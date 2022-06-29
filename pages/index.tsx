@@ -1,5 +1,3 @@
-import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-import type { NextPage } from "next";
 import Link from "next/link";
 import { ReactNode } from "react";
 import { getRegularLayout } from "../layouts/RegularLayout";
@@ -15,10 +13,10 @@ function Home() {
         </p>
         <p className="text-center font-light max-w-md text-indigo-500 text-sm md:text-base">
           Collect revenue from anywhere using Solana Pay and track all your
-          sources, all at the same place.
+          revenue sources at the same place.
         </p>
         <Link href={"/app"}>
-          <button className="py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg">
+          <button className="py-2 px-4 bg-indigo-600 hover:bg-indigo-700 transition-all text-white font-semibold rounded-lg">
             Get Started
           </button>
         </Link>
