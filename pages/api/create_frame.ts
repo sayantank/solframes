@@ -3,7 +3,7 @@ import { PublicKey } from "@solana/web3.js";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { FramesSchema, supabase } from "../../lib/supabase";
 
-type CreateFrameResponse = {
+export type CreateFrameResponse = {
   data?: FramesSchema;
   error?: {
     message: string;
