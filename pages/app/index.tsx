@@ -1,7 +1,9 @@
 import { useWallet } from "@solana/wallet-adapter-react";
 import axios from "axios";
+import { GetStaticProps } from "next";
 import { ReactNode } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import useFrames from "../../hooks/useFrames";
 import { getAppLayout } from "../../layouts/AppLayout";
 import { CreateFrameResponse } from "../api/create_frame";
 
@@ -18,18 +20,19 @@ function App() {
     formState: { errors },
   } = useForm<CreateFrameInputs>();
 
+  const { frames, isLoading, mutate } = useFrames(wallet.publicKey);
+
   const onSubmit: SubmitHandler<CreateFrameInputs> = async (data) => {
     if (!wallet.connected || !wallet.publicKey) {
       return;
     }
     try {
-      const { data: createFrameResponse } =
-        await axios.post<CreateFrameResponse>("/api/create_frame", {
-          title: data.title,
-          description: data.description,
-          owner: wallet.publicKey.toString(),
-        });
-      console.log(createFrameResponse);
+      await axios.post<CreateFrameResponse>("/api/create_frame", {
+        title: data.title,
+        description: data.description,
+        owner: wallet.publicKey.toString(),
+      });
+      await mutate();
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log(
@@ -87,6 +90,16 @@ function App() {
           <p className="w-full text-center font-light text-indigo-400">
             Wallet not connected 👀
           </p>
+        )}
+      </div>
+      <div>
+        {isLoading && <p>loading</p>}
+        {frames && (
+          <div>
+            {frames.map((frame) => (
+              <p key={frame.id}>{frame.title}</p>
+            ))}
+          </div>
         )}
       </div>
     </div>
