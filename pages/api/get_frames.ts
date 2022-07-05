@@ -21,7 +21,7 @@ export default async function handler(
     query: { owner },
   } = req;
 
-  if (!owner) {
+  if (!owner || owner === "") {
     return res
       .status(400)
       .send({ error: { message: "Owner address not found." } });

@@ -51,16 +51,13 @@ function App() {
         {wallet.connected ? (
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col space-y-1 mb-2">
-              <label
-                htmlFor="title"
-                className="text-sm font-light text-indigo-500"
-              >
+              <label htmlFor="title" className="form-input-label">
                 Title
               </label>
               <input
                 type="text"
                 {...register("title", { required: true })}
-                className="bg-transparent border border-indigo-300 p-2 rounded-lg focus:outline-indigo-500 text-indigo-700"
+                className="form-input"
               />
               {errors.title && (
                 <span className="text-xs text-red-400">
@@ -69,16 +66,13 @@ function App() {
               )}
             </div>
             <div className="flex flex-col space-y-1 mb-4">
-              <label
-                htmlFor="description"
-                className="text-sm font-light text-indigo-500"
-              >
+              <label htmlFor="description" className="form-input-label">
                 Description
               </label>
               <input
                 type="text"
                 {...register("description")}
-                className="bg-transparent border border-indigo-300 p-2 rounded-lg focus:outline-indigo-500 text-indigo-700"
+                className="form-input"
               />
             </div>
 
