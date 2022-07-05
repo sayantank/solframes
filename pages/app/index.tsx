@@ -1,6 +1,5 @@
 import { useWallet } from "@solana/wallet-adapter-react";
 import axios from "axios";
-import { GetStaticProps } from "next";
 import { ReactNode } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import useFrames from "../../hooks/useFrames";
@@ -23,14 +22,18 @@ function App() {
   const { frames, isLoading, mutate } = useFrames(wallet.publicKey);
 
   const onSubmit: SubmitHandler<CreateFrameInputs> = async (data) => {
-    if (!wallet.connected || !wallet.publicKey) {
+    if (!wallet.connected || !wallet.publicKey || !wallet.signMessage) {
       return;
     }
     try {
+      const signature = await wallet.signMessage(
+        Buffer.from(JSON.stringify(data))
+      );
       await axios.post<CreateFrameResponse>("/api/create_frame", {
         title: data.title,
         description: data.description,
         owner: wallet.publicKey.toString(),
+        signature: Buffer.from(signature).toString("hex"),
       });
       await mutate();
     } catch (error) {
